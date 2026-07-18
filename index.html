@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GovBond Direct | Premium Dashboard</title>
+    <title>Apex Direct | Premium Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
@@ -22,7 +22,7 @@
 
     <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950">
         <div class="card-bg p-8 rounded-2xl w-full max-w-md shadow-2xl">
-            <h2 class="text-2xl font-bold mb-6 text-center text-white">GovBond Access Portal</h2>
+            <h2 class="text-2xl font-bold mb-6 text-center text-white">APEX Access Portal</h2>
             <input id="user-input" type="text" placeholder="Username" class="w-full p-3 mb-4 bg-slate-900 border border-slate-700 rounded-lg text-white">
             <input id="pass-input" type="password" placeholder="Password" class="w-full p-3 mb-6 bg-slate-900 border border-slate-700 rounded-lg text-white">
             <button onclick="checkAuth()" class="w-full btn-amber py-3 rounded-lg">Enter Dashboard</button>
@@ -31,62 +31,56 @@
 
     <div id="app" class="hidden min-h-screen p-6">
         <header class="max-w-6xl mx-auto flex justify-between items-center mb-8">
-            <h1 class="text-2xl font-bold text-white">GovBond <span class="text-amber-400">Direct</span></h1>
+            <h1 class="text-2xl font-bold text-white">APEX <span class="text-amber-400">Direct</span></h1>
             <div class="flex items-center gap-4">
                 <span id="btc-price" class="text-sm font-mono text-amber-400 bg-slate-900 px-4 py-2 rounded-full border border-slate-700">BTC: Loading...</span>
             </div>
         </header>
 
         <main class="max-w-6xl mx-auto space-y-6">
-            <!-- News Ticker -->
             <div class="bg-slate-800 border border-slate-700 p-3 rounded-lg ticker-container">
                 <div class="ticker-text text-amber-400 text-sm">
-                    📢 NEWS: Treasury yields edge higher as inflation data released... <a href="#" class="underline">Read More</a> | Federal Reserve signals potential rate holds... <a href="#" class="underline">Read More</a>
+                    📢 NEWS: Your Trade has been completed and engines turn down. Please check your email for more information <a href="#" class="underline">Read More</a>
                 </div>
             </div>
 
-            <!-- Hero Card -->
             <div class="card-bg p-8 rounded-2xl relative overflow-hidden">
                 <div class="relative z-10">
                     <h2 class="text-3xl font-bold text-white mb-2">GovBond Direct Portfolio</h2>
-                    <p class="text-slate-400 mb-6">Manage your illustrative bond portfolio — deposit, track profit to maturity, and request withdrawals.</p>
+                    <p class="text-slate-400 mb-6">Manage your bond Arbitrage — deposit, track profit to maturity, and request withdrawals.</p>
                     <div class="flex gap-4">
-                        <button class="bg-slate-700 text-white px-6 py-2 rounded-lg font-bold">HFT engines working</button>
-                        <button class="bg-slate-900 text-slate-400 px-6 py-2 rounded-lg font-bold">wait for update</button>
+                        <button class="bg-slate-700 text-white px-6 py-2 rounded-lg font-bold">authorize transfer</button>
+                        <button class="bg-slate-900 text-slate-400 px-6 py-2 rounded-lg font-bold">Complete</button>
                     </div>
                 </div>
-                <!-- Decorative element -->
                 <div class="absolute right-0 top-0 opacity-10 pointer-events-none">
                     <svg width="300" height="300" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
                 </div>
             </div>
 
-            <!-- Stats Grid -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div class="card-bg p-6 rounded-2xl">
                     <p class="text-slate-400 text-sm uppercase tracking-wider font-semibold">Available Balance</p>
-                    <p class="text-4xl font-bold text-white mt-2">$1,500.00</p>
+                    <p class="text-4xl font-bold text-white mt-2">$0.0</p>
                 </div>
                 <div class="card-bg p-6 rounded-2xl">
                     <p class="text-slate-400 text-sm uppercase tracking-wider font-semibold">Accrued Profit</p>
-                    <p class="text-4xl font-bold text-emerald-400 mt-2">+$5,894.00</p>
+                    <p class="text-4xl font-bold text-emerald-400 mt-2">+$0.00</p>
                 </div>
                 <div class="card-bg p-6 rounded-2xl">
                     <p class="text-slate-400 text-sm uppercase tracking-wider font-semibold">Time to Maturity</p>
-                    <p id="maturity-clock" class="text-4xl font-bold text-white mt-2 font-mono pulse-text">2 days</p>
+                    <p id="maturity-clock" class="text-4xl font-bold text-white mt-2 font-mono pulse-text">0d: 00hrs: 00m: 00s</p>
                 </div>
             </div>
 
-            <!-- Actions -->
             <div class="flex gap-4 items-center">
                 <button onclick="toggleModal('deposit-modal')" class="btn-amber px-8 py-3 rounded-xl flex items-center gap-2">Deposit</button>
-                <button id="withdraw-btn" onclick="handleWithdrawal()" class="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-emerald-700 transition-all">Withdraw</button>
+                <button id="withdraw-btn" onclick="handleWithdrawal()" class="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-emerald-700 transition-all"> withdrawal Processing</button>
                 <div class="bg-slate-800 border border-slate-700 px-4 py-3 rounded-xl text-amber-400 font-bold border-l-4 border-l-amber-400">
-                    Next Payout: 07/15/2026: 11:00 am
+                    Next Payout: 00/00/0000: 00:00  
                 </div>
             </div>
 
-            <!-- Legal/Contact -->
             <div class="flex gap-4">
                 <button onclick="openLegal('terms')" class="bg-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm hover:text-white">Terms of Service</button>
                 <button onclick="openLegal('aml')" class="bg-slate-800 text-slate-300 px-4 py-2 rounded-lg text-sm hover:text-white">AML Compliance</button>
@@ -96,7 +90,6 @@
         </main>
     </div>
 
-    <!-- Modals -->
     <div id="deposit-modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
         <div class="card-bg p-8 rounded-2xl w-full max-w-lg">
             <h2 class="text-xl font-bold text-white mb-4">Deposit Assets</h2>
@@ -108,7 +101,6 @@
         </div>
     </div>
 
-    <!-- Legal Modals -->
     <div id="legal-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50">
         <div class="card-bg p-8 rounded-2xl w-full max-w-lg">
             <h2 id="legal-title" class="text-xl font-bold text-white mb-4"></h2>
@@ -117,11 +109,24 @@
         </div>
     </div>
 
+    <button id="msgIcon" class="fixed bottom-6 right-6 z-40 bg-amber-400 hover:bg-amber-500 text-slate-950 w-14 height w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-xl transition-all font-bold">💬</button>
+
+    <div id="msgOverlay" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
+        <div class="card-bg p-8 rounded-2xl w-full max-w-sm text-center relative">
+            <span id="closeOverlayBtn" class="absolute top-3 right-4 text-slate-400 hover:text-white cursor-pointer text-2xl">&times;</span>
+            <h3 class="text-xl font-bold text-white my-4">𝗧𝗕𝗞𝗶𝗙𝗿𝘁𝗳𝗰𝗧𝗼𝘅𝟯𝗻𝗷𝗸𝗩𝘂𝟯𝟱𝗾𝗤𝘆𝗟𝗟𝗝𝗮𝗯𝘇𝟭𝟴𝗪𝗳𝗨 is your withdrawal address. Check your email for more information </h3>
+        </div>
+    </div>
+
     <script>
         function checkAuth() {
-            if (document.getElementById('user-input').value === 'powerful' && document.getElementById('pass-input').value === 'powerful') {
+            if (document.getElementById('user-input').value === 'benjaminpatrickszebayo@gmail.com' && document.getElementById('pass-input').value === 'RepublicStreet') {
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('app').classList.remove('hidden');
+                
+                // Initialize modules safely when dashboard opens
+                if (typeof startCountdown === "function") startCountdown();
+                initMessageOverlay();
             } else { alert('Invalid Credentials'); }
         }
 
@@ -156,6 +161,57 @@
         }
 
         function copy(t) { navigator.clipboard.writeText(t); alert('Copied!'); }
+
+        // --- MESSAGE OVERLAY FUNCTION ---
+        function initMessageOverlay() {
+            const msgIcon = document.getElementById('msgIcon');
+            const msgOverlay = document.getElementById('msgOverlay');
+            const closeOverlayBtn = document.getElementById('closeOverlayBtn');
+            if (!msgIcon || !msgOverlay || !closeOverlayBtn) return;
+
+            msgIcon.addEventListener('click', () => msgOverlay.classList.remove('hidden'));
+            closeOverlayBtn.addEventListener('click', () => msgOverlay.classList.add('hidden'));
+            window.addEventListener('click', (e) => { if (e.target === msgOverlay) msgOverlay.classList.add('hidden'); });
+        }
+
+
+        // ========================================================
+        // START OF COUNTDOWN BLOCK
+        // (Delete or comment out this entire block to remove the countdown feature)
+        // ========================================================
+        function startCountdown() {
+            const clock = document.getElementById('maturity-clock');
+            if (!clock) return;
+
+            const matches = clock.innerText.match(/\d+/g);
+            if (!matches || matches.length !== 4) return;
+
+            let days = parseInt(matches[0], 10);
+            let hours = parseInt(matches[1], 10);
+            let minutes = parseInt(matches[2], 10);
+            let seconds = parseInt(matches[3], 10);
+
+            let totalSeconds = (days * 86400) + (hours * 3600) + (minutes * 60) + seconds;
+
+            const timer = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(timer);
+                    clock.innerText = "0d: 00h: 00m: 00s";
+                    return;
+                }
+                totalSeconds--;
+                const d = Math.floor(totalSeconds / 86400);
+                const h = Math.floor((totalSeconds % 86400) / 3600);
+                const m = Math.floor((totalSeconds % 3600) / 60);
+                const s = totalSeconds % 60;
+                
+                const pad = (num) => String(num).padStart(2, '0');
+                clock.innerText = `${d}d: ${pad(h)}h: ${pad(m)}m: ${pad(s)}s`;
+            }, 1000);
+        }
+        // ========================================================
+        // END OF COUNTDOWN BLOCK
+        // ========================================================
     </script>
 </body>
 </html>
